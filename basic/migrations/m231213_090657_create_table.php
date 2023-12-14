@@ -21,6 +21,7 @@ class m231213_090657_create_table extends Migration
         $this -> alterColumn('question','id', $this->integer().' AUTO_INCREMENT');
         $this->createTable('set', [
             'id' => $this->primaryKey()->notNull()->unique(),
+            'about'=>$this->string(),
         ]);
         $this -> alterColumn('set','id', $this->integer().' AUTO_INCREMENT');
         $this->createTable('game', [
@@ -34,8 +35,18 @@ class m231213_090657_create_table extends Migration
             'score_second'=>$this->string(),
             'first_finish'=>$this->boolean(),
             'second_finish'=>$this->boolean(),
+            'first_id'=>$this->string(),
+            'second_id'=>$this->string(),
         ]);
         $this -> alterColumn('game','id', $this->integer().' AUTO_INCREMENT');
+        $this->addForeignKey(
+            'fk-set-question',
+            'question',
+            'set_id',
+            'set',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -43,6 +54,7 @@ class m231213_090657_create_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('fk-set-question', 'question');
         $this->dropTable('question');
         $this->dropTable('set');
         $this->dropTable('game');
