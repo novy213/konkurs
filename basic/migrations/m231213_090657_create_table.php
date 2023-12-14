@@ -12,15 +12,15 @@ class m231213_090657_create_table extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('user', [
+        $this->createTable('question', [
             'id' => $this->primaryKey()->notNull()->unique(),
             'question'=>$this->string(),
+            'correct'=>$this->boolean(),
             'set_id'=>$this->integer(),
         ]);
-        $this -> alterColumn('user','id', $this->integer().' AUTO_INCREMENT');
+        $this -> alterColumn('question','id', $this->integer().' AUTO_INCREMENT');
         $this->createTable('set', [
             'id' => $this->primaryKey()->notNull()->unique(),
-            'correct_id'=>$this->integer(),
         ]);
         $this -> alterColumn('set','id', $this->integer().' AUTO_INCREMENT');
         $this->createTable('game', [
@@ -30,6 +30,10 @@ class m231213_090657_create_table extends Migration
             'set_id'=>$this->integer(),
             'nickname_first'=>$this->string(),
             'nickname_second'=>$this->string(),
+            'score_first'=>$this->string(),
+            'score_second'=>$this->string(),
+            'first_finish'=>$this->boolean(),
+            'second_finish'=>$this->boolean(),
         ]);
         $this -> alterColumn('game','id', $this->integer().' AUTO_INCREMENT');
     }
@@ -39,6 +43,8 @@ class m231213_090657_create_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%}}');
+        $this->dropTable('question');
+        $this->dropTable('set');
+        $this->dropTable('game');
     }
 }
