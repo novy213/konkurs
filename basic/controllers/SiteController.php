@@ -76,19 +76,23 @@ class SiteController extends \app\components\Controller
         $game->first_id = $post->first_id;
         $game->code = rand(1000,9999);
         $set = null;
+        $questions = null;
         if(isset($post->about)){
             $set = Set::find()->andWhere(['about'=>$post->about])->one();
+            $questions = $set->questions;
+            $game->set_id = $set->id;
         }
         else {
             $set = Set::find()->all();
+            $rand = rand(0, count($set)-1);
+            $questions = $set[$rand]->questions;
+            $game->set_id = $set[$rand]->id;
         }
-        $rand = rand(0, count($set)-1);
-        $questions = $set[$rand]->questions;
-        $game->set_id = $set->id;
         $game->save();
         return [
             'error'=>false,
             'message'=>null,
+            'code'=>$game->code,
             'questions'=>$questions
         ];
     }
@@ -97,10 +101,13 @@ class SiteController extends \app\components\Controller
         $game = Game::find()->andWhere(['id'=>$post->game_id])->one();
         $game->nickname_second = $post->nickname_second;
         $game->second_id = $post->second_id;
+        $set = Set::find()->andWhere(['id'=>$game->set_id])->one();
+        $questions = $set->questions;
         $game->save();
         return [
             'error'=>false,
             'message'=>null,
+            'questions'=>$questions
         ];
     }
     public function actionSetgame(){
