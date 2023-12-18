@@ -42,14 +42,19 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'pattern' => '/getquestions',
+                    'route' => '/site/getquestions',
+                    'verb' => 'POST',
+                ],
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];

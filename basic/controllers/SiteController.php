@@ -60,7 +60,7 @@ class SiteController extends \app\components\Controller
         else {
             $set = Set::find()->all();
         }
-        $rand = rand(0, count($set)-1);
+        $rand = rand(0, count($set));
         $questions = $set[$rand]->questions;
         return [
             'error'=>false,
